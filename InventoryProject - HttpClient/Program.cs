@@ -7,15 +7,13 @@ using System.Text.Json.Serialization;
 using ClientHttp.Model;
 using ClientHttp.ViewModel;
 
-//Добавление пользователя
-Person person = new Person()
-{
-    Personname = "Ivan",
-    Passwordhash = "qwerty",
-    Salt = "salted159",
-    //Createdat = DateTime.Now
-};
-PersonViewModel.SendClient(person).GetAwaiter().GetResult();
+////Добавление пользователя
+//Person person = new Person()
+//{
+//    Personname = "User5",
+//    Passwordhash = "user5"
+//};
+//PersonViewModel.SendClient(person).GetAwaiter().GetResult();
 
 //Получение списка пользователей
 Task<List<Person>> task = PersonViewModel.getPerson();
@@ -26,18 +24,18 @@ foreach (Person c in clients)
 }
 Console.WriteLine();
 
-////Удаление пользователя по Id
-await PersonViewModel.DelClient(10);
+//////Удаление пользователя по Id
+//await PersonViewModel.DelClient(10);
 
-//Изменение пользователя
-Person person2 = new Person()
-{
-    Personid = 11,
-    Personname = "Semen",
-    Passwordhash = "ytrewq",
-    Salt = "salted159",
-};
-await PersonViewModel.PutClient(person2);
+////Изменение пользователя
+//Person person2 = new Person()
+//{
+//    Personid = 11,
+//    Personname = "Semen",
+//    Passwordhash = "ytrewq",
+//    Salt = "salted159",
+//};
+//await PersonViewModel.PutClient(person2);
 
 
 

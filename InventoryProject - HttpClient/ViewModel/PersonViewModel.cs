@@ -1,4 +1,5 @@
 ﻿using ClientHttp.Model;
+using InventoryProject___HttpClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,5 +106,26 @@ namespace ClientHttp.ViewModel
                 Console.WriteLine($"Ошибка: {ex.Message}");
             }
         }
+        public static async Task<bool> VerifyPassword(string username, string password)
+        {
+            JsonUser requestData = new JsonUser()
+            {
+                UserName = username,
+                Password = password
+            };
+            JsonContent content = JsonContent.Create(requestData);
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:8888/connection/");
+            request.Content = content;
+            request.Headers.Add("table", "verifyPasswordPerson");
+            using var response = await httpClient.SendAsync(request);
+            string responseText = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(responseText);
+            var result = JsonSerializer.Deserialize<PasswordVerificationResult>(responseText);
+            return result!.IsValid;
+        }
+    }
+    public class PasswordVerificationResult
+    {
+        public bool IsValid { get; set; }
     }
 }
