@@ -15,14 +15,14 @@ using ClientHttp.ViewModel;
 //};
 //PersonViewModel.SendClient(person).GetAwaiter().GetResult();
 
-//Получение списка пользователей
-Task<List<Person>> task = PersonViewModel.getPerson();
-List<Person> clients = task.Result;
-foreach (Person c in clients)
-{
-    Console.WriteLine(c.Personid + " " + c.Personname + " " + c.Passwordhash + " " + c.Salt + " " + c.Createdat);
-}
-Console.WriteLine();
+////Получение списка пользователей
+//Task<List<Person>> task = PersonViewModel.getPerson();
+//List<Person> clients = task.Result;
+//foreach (Person c in clients)
+//{
+//    Console.WriteLine(c.Personid + " " + c.Personname + " " + c.Passwordhash + " " + c.Salt + " " + c.Createdat);
+//}
+//Console.WriteLine();
 
 //////Удаление пользователя по Id
 //await PersonViewModel.DelClient(10);
@@ -37,6 +37,8 @@ Console.WriteLine();
 //};
 //await PersonViewModel.PutClient(person2);
 
-
+Task<string> task2 = PersonViewModel.VerifyPassword("Admin", "admin");
+string result = task2.Result;
+Console.WriteLine(result);
 
 

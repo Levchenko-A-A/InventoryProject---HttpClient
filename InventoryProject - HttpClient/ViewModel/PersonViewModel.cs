@@ -106,26 +106,34 @@ namespace ClientHttp.ViewModel
                 Console.WriteLine($"Ошибка: {ex.Message}");
             }
         }
-        public static async Task<bool> VerifyPassword(string username, string password)
+        public static async Task<string> VerifyPassword(string username, string password)
         {
-            JsonUser requestData = new JsonUser()
+            try
             {
-                UserName = username,
-                Password = password
-            };
-            JsonContent content = JsonContent.Create(requestData);
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:8888/connection/");
-            request.Content = content;
-            request.Headers.Add("table", "verifyPasswordPerson");
-            using var response = await httpClient.SendAsync(request);
-            string responseText = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseText);
-            var result = JsonSerializer.Deserialize<PasswordVerificationResult>(responseText);
-            return result!.IsValid;
+                JsonUser requestData = new JsonUser()
+                {
+                    UserName = username,
+                    Password = password
+                };
+                JsonContent content = JsonContent.Create(requestData);
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:8888/connection/");
+                request.Content = content;
+                request.Headers.Add("table", "verifyPasswordPerson");
+                using var response = await httpClient.SendAsync(request);
+                string responseText = await response.Content.ReadAsStringAsync();
+                string answer = JsonSerializer.Deserialize<string>(responseText)!;
+                return answer;
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Ошибка HTTP: {ex.Message}");
+                return "Error";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+                return "Error";
+            }
         }
-    }
-    public class PasswordVerificationResult
-    {
-        public bool IsValid { get; set; }
     }
 }
